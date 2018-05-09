@@ -1,170 +1,210 @@
-[![Jovo Framework](https://www.jovo.tech/img/github-logo.png)](https://www.jovo.tech)
+﻿# Test Suite
 
-<p align="center">Sample Voice App for the <a href="https://github.com/jovotech/jovo-framework-nodejs">Jovo Framework</a> ⭐️</p>
+In this section, you will learn more about testing your intents with Jovo.
 
-<p align="center">
-<a href="https://www.jovo.tech/framework/docs/"><strong>Documentation</strong></a> -
-<a href="https://github.com/jovotech/jovo-cli"><strong>CLI </strong></a> - <a href="https://github.com/jovotech/jovo-templates"><strong>Templates </strong></a> -<a href="https://github.com/jovotech/jovo-framework-nodejs/blob/master/CONTRIBUTING.md"><strong>Contributing</strong></a> - <a href="https://twitter.com/jovotech"><strong>Twitter</strong></a></p>
-<br/>
+* [Overview](#overview)
+* [Basic Concepts](#basic-concepts)
+  * [Handler](#handler)
+  * [Routing](#routing)
+  * [Data](#data)
+  * [Output](#output)
 
-# Sample Voice App for Jovo
+## Overview
 
+![Alexa Skill Folder in a Jovo Project](../img/folder-structure-simple.png "Alexa Skill Folder in a Jovo Project" )
+
+The `/app` folder contains all the logic necessary for your voice application. The `app.js` includes both a part about [App Configuration](../03_app-configuration './app-configuration'), as well as App Logic.
+
+You can find out more about the basic concepts below.
+
+## Basic Concept
+
+The TestSuite is heavily based on mocha tests and the expect() method from the Chai Assertion Library. (for those not familiar with mocha tests -> link). 
 ```javascript
-app.setHandler({
-    'LAUNCH': function() {
-        this.toIntent('HelloWorldIntent');
-    },
-
-    'HelloWorldIntent': function() {
-        this.ask('Hello World! What is your name?', 'Please tell me your name.');
-    },
-
-    'MyNameIsIntent': function(name) {
-        this.tell('Hey ' + name + ', nice to meet you!');
-    },
+describe('LaunchIntent', function () {
+    for (let requestBuilder of [alexaRequestBuilder, googleActionRequestBuilder]) {
+        it('should go successfully into LaunchIntent for ' + requestBuilder.type(), function (done) {
+            send(requestBuilder.launch())
+                .then((res) => {
+                    expect(res.isAsk('Hello World! What\'s your name?', 'Please tell me your name.')).to.equal(true);
+                    done();
+                });
+        });
+    }
 });
 ```
 
-[Jovo](https://www.jovo.tech "Jovo's website") is a development framework for cross-platform voice apps. Use this repository as a starting point to create a voice application for Amazon Alexa and Google Assistant.
+## send
 
-> 🚀 Join our newsletter for free courses on voice app development: www.jovo.tech/newsletter 
-
-## Table of Contents
-
-* [Getting Started](#getting-started)
-* [Tutorials](#tutorials)
-* [How to Contribute](#how-to-contribute)
-
-
-## Getting Started
-
-In this guide, you will learn how to create a "Hello World" voice app for both Amazon Alexa and Google Assistant.
-
-### Install the Jovo CLI
-
-The [Jovo CLI](https://github.com/jovotech/jovo-cli) is the best way to get started with Jovo development:
-
-```sh
-$ npm install -g jovo-cli
-```
-
-To learn more, please find the [Getting Started Guide](https://www.jovo.tech/framework/docs/installation) in the Jovo Framework Docs.
-
-### Create a new Project
-
-```sh
-$ jovo new <directory>
-```
-
-This will clone the Jovo Sample Voice App into a new directory with a name specified by you.
-
-### Configure your App
-
-You can configure the app and add to its logic in the `app` folder, where you can find a file [`app.js`](./app/app.js), which looks like this:
+The main component of the TestSuite is the function ```send()```. With it, the user is able to send specific requests to the running Jovo App. To build these requests, we offer you RequestBuilders for both Alexa and GoogleAction.
 
 ```javascript
-'use strict';
-
-// =================================================================================
-// App Configuration
-// =================================================================================
-
-const {App} = require('jovo-framework');
-
-const config = {
-    logging: true,
-};
-
-const app = new App(config);
-
-
-// =================================================================================
-// App Logic
-// =================================================================================
-
-app.setHandler({
-    'LAUNCH': function() {
-        this.toIntent('HelloWorldIntent');
-    },
-
-    'HelloWorldIntent': function() {
-        this.ask('Hello World! What is your name?', 'Please tell me your name.');
-    },
-
-    'MyNameIsIntent': function(name) {
-        this.tell('Hey ' + name + ', nice to meet you!');
-    },
-});
-
-module.exports.app = app;
-```
-
-### Configure the Language Model
-
-You can change the language model in the `/models`folder and can use the [Jovo CLI](https://github.com/jovotech/jovo-cli) to build platform specific language models into a new `/platforms` folder, and then deploy the language model to the platforms.
-
-For example, you can do it like so:
-
-```sh
-# Initialize a Platform (alexaSkill or googleAction)
-$ jovo init alexaSkill
-
-# Build platform specific language model into /platforms
-$ jovo build
-
-# Deploy language model
-$ jovo deploy
-```
-
-There is also a super fast way to do everything at once:
-
-```sh
-# Long version
-$ jovo new <directory> --build alexaSkill --deploy
-
-# Short version
-$ jovo new <directory> -b alexaSkill -d
-```
-
-To find other ways to deploy the language model, please take a look at the tutorials:
-
-* [Build an Alexa Skill with Jovo](https://www.jovo.tech/blog/alexa-skill-tutorial-nodejs/)
-* [Build a Google Action with Jovo](https://www.jovo.tech/blog/google-action-tutorial-nodejs/)
-
-
-
-### Run the Code
-
-The [`index.js`](./index.js) file is responsible for the server configuration.
-
-You can run this template in two ways:
-* Webhook ([docs](https://www.jovo.tech/framework/docs/server/webhook)): Do `$ jovo run` and use a tool like [ngrok](https://www.ngrok.com) to point to the local webhook
-* AWS Lambda ([docs](https://www.jovo.tech/framework/docs/server/aws-lambda)): Zip the folder and upload there
-
-The file looks like this:
-
-```javascript
-'use strict';
-
-const {Webhook} = require('jovo-framework');
-const {app} = require('./app/app.js');
-
-// =================================================================================
-// Server Configuration
-// =================================================================================
-
-if (app.isWebhook()) {
-    const port = process.env.PORT || 3000;
-    Webhook.listen(port, () => {
-        console.log(`Example server listening on port ${port}!`);
-    });
-    Webhook.post('/webhook', (req, res) => {
-        app.handleWebhook(req, res);
+for (let req of [alexaRequestBuilder, googleActionRequestBuilder]) {
+    it('should go successfully into LaunchIntent for ' + req.type(), function (done) {
+        send(req.launch())
+            .then((res) => {
+                expect(res.isAsk('Hello World! What\'s your name?', 'Please tell me your name.')).to.equal(true);
+                done();
+            });
     });
 }
+```
+ If you want to test requests for both platforms Alexa and GoogleAction, you can define a ```for-of``` loop to test both of them. Alternatively, if you want to test only one platform or have some platform-specific intents, you have the option to define only one RequestBuilder in the array or to work without a loop and only take your intended RequestBuilder into play.
 
-exports.handler = (event, context, callback) => {
-    app.handleLambda(event, context, callback);
+```javascript
+send(alexaRequestBuilder.launch())
+    .then((res) => {
+        expect(res.isAsk('Hello World! What\'s your name?', 'Please tell me your name.')).to.equal(true);
+        done();
+    });
+```
+
+```send()``` returns a Promise, which means that you can nest multiple requests for a whole simulated conversation flow according to the Promise concept.
+
+```javascript
+send(requestBuilder.launch())                                                      // send launch request
+    .then(() => send(requestBuilder.intent('MyNameIsIntent', {name: 'John'})))     // send intent request 
+    .then((res) => {
+        expect(res.isTell('Hey John, nice to meet you!')).to.equal(true);
+        done();
+    });
+```
+
+Apart from using the RequestBuilder for defining request intents, you can also build your own JSON request object and pass it to ```send()```. Be careful with this though, as an invalid request object will fail. Alternatively, you can pass the object as an argument to ```requestBuilder.intent(object)``` to access the requestbuilder functions on your own object. Keep in mind, that you cannot pass a AlexaRequest into the GoogleActionRequestBuilder and vice versa.
+```javascript
+let requestObj = {
+    'version': '1.0',
+    'session': {
+        ...
+    },
+    ...
 };
+send(requestBuilder.intent(requestObj));
+```
+
+## RequestBuilder
+The RequestBuilder can be used to build intentRequests easily with respective functions.
+
+### Launch
+This sends a basic LaunchRequest to your voice app, hence simulates the start of your voice application.
+```javascript
+send(requestBuilder.launch());
+```
+
+### Intent
+```javascript
+send(requestBuilder.intent());
+```
+This sends a default intentRequest with the intentName 'HelpIntent'. You can specify the intentName by passing it into ```intent('')``` as the first parameter or by calling ```intent().setIntentName('')```. Slots/Parameters can be added as well by passing them as an object as the second parameter in ```intent('', {name: 'John'})``` or by using the method ```intent().addInput('', '')```.
+
+#### Session Attributes
+Although session attributes are applied automatically, you may want to go straight to a specific intent without calling the whole conversation flow before. For this situation, you can call ```requestBuilder.intent().setSessionAttribute('', '')``` to specify session attributes. As a shortcut for only setting a specific state, you have the option to use ```setState('')```. If you want to add multiple session attributes at once, use ```setSessionAttributes(object)```.
+
+#### setSessionNew
+To simulate a new session, you can call ```requestBuilder.intent().setSessionNew(true)```.
+
+#### setType
+To alter the type of a request, use ```requestBuilder.intent().setType('type');```.
+
+### AudioPlayer Directives
+To send AudioPlayer Directives to your voice app, you can build the request object with ```requestBuilder.audio()```. You can specify the directive by passing it as the parameter (```requestBuilder.audio('PlaybackStopped')```) or by calling ```setType('type');```.
+
+## UserData
+For accessing data across sessions, you can add user data to your user.
+```javascript
+addUserData(requestBuilder.intent().getUserId(), 'key', 'value');
+```
+This method expects a userId as the first parameter, to identify the user. For the default id, that comes with the default intent ```requestBuilder.intent()```, you can simply call ```requestBuilder.intent().getUserId()```. If you built your own intent request, you can pass it to ```requestBuilder.intent()``` like shown above and call ```getUserId()```:
+
+```javascript
+let requestObj = {
+    'version': '1.0',
+    'session': {
+        ...
+    },
+    ...
+}
+let intentRequest = requestBuilder.intent(requestObj);
+addUserData(intentRequest.getUserId(), 'key', 'value');
+send(intentRequest.setIntentName(''))
+    .then(() => {
+        ...
+    });
+``` 
+To set the userId, call ```requestBuilder.intent().setUserId('userId');```.
+
+If you want to add user data between two requests, you can nest ```addUserData()``` with ```send()```.
+
+```javascript
+ send(req.launch())
+    .then(() => {
+        addUserData(req.intent().getUserId(), 'key', 'value');              // get the default user id
+        return send(req.intent('CheckForUserDataIntent'));
+    })
+    .then((res) => {
+        expect(res.isTell('value')).to.equal(true);
+        done();
+    })
+```
+
+You can also add a new user by passing a user object to ```addUser(user)```.
+
+If you want to check if some data is stored for a specific user, use ```getUserData('userId', 'key')``` or ```getUserData('userId')``` to get all data for the specified user.
+
+It is recommended to delete the user or remove specific user data after your test. This way you can assure, that the next test runs independently.
+If you want to remove specific user data, call ```removeUserData('userId', 'key')``` or just ```removeUserData('userId')``` to remove all data for the specified user. If you want to remove a whole user, you can use ```removeUser('userId')```, or ```removeUser()``` to remove all users.
+
+```javascript
 
 ```
+
+## Response
+If you want to access the final response object from your workflow, ```send()``` returns a variable ```res```, presenting a ResponseObject with respective functions. You can call these and expect a certain value from them, using expect from the Chai Assertion Library per default. Of course, you are free to use any other assertion methods. 
+```javascript
+send(req.launch())
+    .then((res) => {
+        expect(res.isTell('value')).to.equal(true);
+        done();
+    });
+```
+### isTell
+This method checks, if the response is a tell and compares the given parameter with the actual value, returning true if this is the case.
+
+```javascript
+expect(res.isTell('Hello World')).to.equal(true);
+```  
+If you have dynamic values in your code (e.g. ```this.tell(['Hello World', 'Hey World']);```), you can check for these values by passing the same array in ```isTell()```.
+```javascript
+expect(res.isTell(['Hello World', 'Hey World'])).to.equal(true);
+```
+### isAsk
+```isAsk()``` functions in the same way as ```isTell()```, except with 2 parameters instead of just one (for reprompt).
+```javascript
+expect(res.isAsk('Hello World! What\'s your name?', 'Please tell me your name.')).to.equal(true);
+```  
+This works with dynamic values as well.
+
+### hasSessionAttribute
+Check if a specific session attribute has been delivered with the response.
+```javascript
+expect(res.hasSessionAttribute('key', 'value')).to.equal(true);
+````
+Alternatively, if you just want to check if the response includes any session attributes, use ```res.hasSessionAttributes()```.
+
+### getShouldEndSession
+Checks if the session should end.
+```javascript
+expect(res.getShouldEndSession()).to.equal(true);
+```
+
+
+<!--[metadata]: {"title": "App Logic", 
+                "description": "Find out how to build voice app logic with the Jovo Framework",
+                "activeSections": ["logic", "logic_index"],
+                "expandedSections": "logic",
+                "inSections": "logic",
+                "breadCrumbs": {"Docs": "framework/docs",
+				"App Logic": ""
+                                },
+		"commentsID": "framework/docs/app-logic"
+                }-->

@@ -97,7 +97,7 @@ For accessing data across sessions, you can add user data to your user.
 ```javascript
 addUserData(requestBuilder.intent().getUserId(), 'key', 'value');
 ```
-This method expects a userId as the first parameter, to identify the user. For the default id, that comes with the default intent ```requestBuilder.intent()```, you can simply call ```requestBuilder.intent().getUserId()```. If you built your own intent request, you can pass it to ```requestBuilder.intent()``` like shown above and call ```getUserId()```:
+This method expects a userId as the first parameter, to identify the user. For the default id, that comes with the default intent ```requestBuilder.intent()```, you can simply call ```requestBuilder.intent().getUserId()``` or pass it as a string. If you built your own intent request, you can pass it to ```requestBuilder.intent()``` like shown above and call ```getUserId()```:
 
 ```javascript
 let requestObj = {

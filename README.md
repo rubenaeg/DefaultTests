@@ -1,21 +1,4 @@
-﻿# Test Suite
-
-In this section, you will learn more about testing your intents with Jovo.
-
-* [Overview](#overview)
-* [Basic Concepts](#basic-concepts)
-  * [Handler](#handler)
-  * [Routing](#routing)
-  * [Data](#data)
-  * [Output](#output)
-
-## Overview
-
-![Alexa Skill Folder in a Jovo Project](../img/folder-structure-simple.png "Alexa Skill Folder in a Jovo Project" )
-
-The `/app` folder contains all the logic necessary for your voice application. The `app.js` includes both a part about [App Configuration](../03_app-configuration './app-configuration'), as well as App Logic.
-
-You can find out more about the basic concepts below.
+# Test Suite
 
 ## Basic Concept
 

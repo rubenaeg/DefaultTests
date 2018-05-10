@@ -90,7 +90,7 @@ To simulate a new session, you can call ```requestBuilder.intent().setSessionNew
 To alter the type of a request, use ```requestBuilder.intent().setType('type');``` This only works for Alexa.
 
 ### AudioPlayer Directives
-To send AudioPlayer Directives to your voice app, you can build the request object with ```requestBuilder.audio()```. You can specify the directive by passing it as the parameter (```requestBuilder.audio('PlaybackStopped')```) or by calling ```setType('type');```.
+To send AudioPlayer Directives to your voice app, you can build the request object with ```requestBuilder.audio()```. You can specify the directive by passing it as the parameter (```requestBuilder.audio('PlaybackStopped')```) or by calling ```setType('directiveType');```.
 
 ## UserData
 For accessing data across sessions, you can add user data to your user.

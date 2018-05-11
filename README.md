@@ -97,7 +97,10 @@ To send AudioPlayer Directives to your voice app, you can build the request obje
 To simulate an error sent to your application, you can call ```requestBuilder.error()```.
 
 #### SkillEvent
-If your skill is for instance disabled, a SkillEventRequest is sent to let your app know about it. To simulate that, use ```requestBuilder.skillEvent()```. To alter the type of the skillEvent, pass it as a parameter or call ```setType()``` like shown above for AudioPlayer Directives.
+If your skill is for instance disabled, a SkillEventRequest is sent to let your app know about it. To simulate that, use ```requestBuilder.skillEvent()```. To alter the type of the skillEvent, pass it as a parameter or call ```setType('AlexaSKillEvent.SkillDisabled')``` like shown above for AudioPlayer Directives.
+
+#### DisplayRequest
+To simulate a display event, that occurres when for example a user touches the display of an Echo Show. Simply call ```requestBuilder.touch()```. To alter the type of the skillEvent, pass it as a parameter or call ```setType('Display.ElementSelected)``` like shown above for AudioPlayer Directives.
 
 
 ## UserData

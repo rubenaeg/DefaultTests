@@ -96,6 +96,9 @@ To send AudioPlayer Directives to your voice app, you can build the request obje
 #### Error
 To simulate an error sent to your application, you can call ```requestBuilder.error()```.
 
+#### SkillEvent
+If your skill is for instance disabled, a SkillEventRequest is sent to let your app know about it. To simulate that, use ```requestBuilder.skillEvent()```. To alter the type of the skillEvent, pass it as a parameter or call ```setType()```.
+
 
 ## UserData
 For accessing data across sessions, you can add user data to your user.

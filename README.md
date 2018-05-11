@@ -91,13 +91,13 @@ To alter the type of a request, use ```requestBuilder.intent().setType('type');`
 
 ### Alexa Specifics
 #### AudioPlayer Directives
-To send AudioPlayer Directives to your voice app, you can build the request object with ```requestBuilder.audio()```. You can specify the directive by passing it as the parameter (```requestBuilder.audio('PlaybackStopped')```) or by calling ```setType('directiveType');```.
+To send AudioPlayer Directives to your voice app, you can build the request object with ```requestBuilder.audio()```. You can specify the directive by passing it as the parameter (```requestBuilder.audio('PlaybackStopped')```) or by calling ```setType('AudioPlayer.directive');```.
 
 #### Error
 To simulate an error sent to your application, you can call ```requestBuilder.error()```.
 
 #### SkillEvent
-If your skill is for instance disabled, a SkillEventRequest is sent to let your app know about it. To simulate that, use ```requestBuilder.skillEvent()```. To alter the type of the skillEvent, pass it as a parameter or call ```setType()```.
+If your skill is for instance disabled, a SkillEventRequest is sent to let your app know about it. To simulate that, use ```requestBuilder.skillEvent()```. To alter the type of the skillEvent, pass it as a parameter or call ```setType()``` like shown above for AudioPlayer Directives.
 
 
 ## UserData

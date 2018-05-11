@@ -174,6 +174,8 @@ expect(res.hasSessionAttribute('key', 'value')).to.equal(true);
 ````
 Alternatively, if you just want to check if the response includes any session attributes, use ```res.hasSessionAttributes()```.
 
+Again, a shortcut to check if your response contains a specific state would be ```res.hasState('state')```.
+
 ### getShouldEndSession
 Checks if the session should end.
 ```javascript

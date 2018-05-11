@@ -84,7 +84,7 @@ This sends a default intentRequest with the intentName 'HelpIntent'. You can spe
 Although session attributes are applied automatically, you may want to go straight to a specific intent without calling the whole conversation flow before. For this situation, you can call ```requestBuilder.intent().setSessionAttribute('', '')``` to specify session attributes. As a shortcut for only setting a specific state, you have the option to use ```setState('')```. If you want to add multiple session attributes at once, use ```setSessionAttributes(object)```.
 
 #### setSessionNew
-To simulate a new session, you can call ```requestBuilder.intent().setSessionNew(true)```.
+To simulate a new session, you can call ```requestBuilder.intent().setSessionNew(true)```. Per default, ```requestBuilder.intent()``` won't represent a new session.
 
 #### setType
 To alter the type of a request, use ```requestBuilder.intent().setType('type');``` This only works for Alexa.

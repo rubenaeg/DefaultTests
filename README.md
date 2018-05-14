@@ -193,6 +193,10 @@ Checks if the session should end.
 expect(res.getShouldEndSession()).to.equal(true);
 ```
 
+## Record
+We offer you the possibility to record your requests and responses while testing your app in the console or per voice. For that, add the following parameter to your cli command:
+jovo run --record {name of the recording} or -r to use the session id as the name.
+
 
 <!--[metadata]: {"title": "App Logic", 
                 "description": "Find out how to build voice app logic with the Jovo Framework",

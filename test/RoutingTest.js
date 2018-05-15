@@ -61,7 +61,7 @@ describe('HELP_INTENT', function() {
     }
 });
 
-describe('UNHANLDED', function() {
+describe('UNHANDLED', function() {
     for(let requestBuilder of [alexaRequestBuilder, googleActionRequestBuilder]) {
         it('should not throw an error, unless Unhandled is not defined for ' + requestBuilder.type(), function(done) {
             send(requestBuilder.intent('Unhandled'))

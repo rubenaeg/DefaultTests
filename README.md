@@ -2,7 +2,7 @@
 
 ## Basic Concept
 
-The TestSuite is heavily based on mocha tests and the expect() method from the Chai Assertion Library. (for those not familiar with mocha tests -> link). 
+The TestSuite is heavily based on mocha tests and the expect() method from the Chai Assertion Library.
 ```javascript
 describe('LaunchIntent', function () {
     for (let requestBuilder of [alexaRequestBuilder, googleActionRequestBuilder]) {

@@ -4,13 +4,14 @@
   "description": "A sample voice app that works with the Jovo framework",
   "main": "index.js",
   "dependencies": {
-    "chai": "^4.1.2",
     "jovo-framework": "^1.0.0",
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
     "mocha": "^5.1.1"
   },
-  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha test --recursive"
   },
   "repository": {
     "type": "git",

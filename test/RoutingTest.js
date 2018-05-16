@@ -1,11 +1,13 @@
 'use strict';
 
+const {app} = require('../app/app');
 const expect = require('chai').expect;
-
-const {alexaRequestBuilder, googleActionRequestBuilder, send, addUserData, getUserData, removeUser, removeUserData} = require('jovo-framework').Jester;
+const getPlatformRequestBuilder = require('jovo-framework').util.getPlatformRequestBuilder;
+const {send, addUserData, getUserData, removeUser, removeUserData} = require('jovo-framework').TestSuite;
+setDbPath(app.config.db.localDbFilename);
 
 describe('LAUNCH_INTENT', function() {
-    for(let requestBuilder of [alexaRequestBuilder, googleActionRequestBuilder]) {
+    for(let requestBuilder of getPlatformRequestBuilder('GoogleActionDialogFlow', 'AlexaSkill')) {
         it('should successfully go into LaunchIntent for ' + requestBuilder.type(), function (done) {
             send(requestBuilder.launch())
                 .then((res) => {
@@ -17,7 +19,7 @@ describe('LAUNCH_INTENT', function() {
 });
 
 describe('HELLO_WORLD_INTENT', function() {
-    for(let requestBuilder of [alexaRequestBuilder, googleActionRequestBuilder]) {
+    for(let requestBuilder of getPlatformRequestBuilder('GoogleActionDialogFlow', 'AlexaSkill')) {
         it('should successfully go into HelloWorldIntent for ' + requestBuilder.type(), function(done) {
             send(requestBuilder.intent('HelloWorldIntent'))
                 .then((res) => {
@@ -29,7 +31,7 @@ describe('HELLO_WORLD_INTENT', function() {
 });
 
 describe('MY_NAME_IS_INTENT', function() {
-    for(let requestBuilder of [alexaRequestBuilder, googleActionRequestBuilder]) {
+    for(let requestBuilder of getPlatformRequestBuilder('GoogleActionDialogFlow', 'AlexaSkill')) {
         it('should simulate the whole conversation flow and greet the user with the correct name for ' + requestBuilder.type(), function(done) {
             send(requestBuilder.launch())
                 .then(() => send(requestBuilder.intent('MyNameIsIntent', {name: 'John'})))
@@ -50,7 +52,7 @@ describe('MY_NAME_IS_INTENT', function() {
 });
 
 describe('HELP_INTENT', function() {
-    for(let requestBuilder of [alexaRequestBuilder, googleActionRequestBuilder]) {
+    for(let requestBuilder of getPlatformRequestBuilder('GoogleActionDialogFlow', 'AlexaSkill')) {
         it('should not throw an error, unless HelpIntent doesn\'t exist for ' + requestBuilder.type(), function(done) {
             send(requestBuilder.intent('HelpIntent'))
                 .then((res) => {
@@ -62,7 +64,7 @@ describe('HELP_INTENT', function() {
 });
 
 describe('UNHANDLED', function() {
-    for(let requestBuilder of [alexaRequestBuilder, googleActionRequestBuilder]) {
+    for(let requestBuilder of getPlatformRequestBuilder('GoogleActionDialogFlow', 'AlexaSkill')) {
         it('should not throw an error, unless Unhandled is not defined for ' + requestBuilder.type(), function(done) {
             send(requestBuilder.intent('Unhandled'))
                 .then((res) => {

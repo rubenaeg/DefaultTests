@@ -48,7 +48,7 @@ send(rb.launch())                                                               
     });
 ```
 
-Apart from using the RequestBuilder for defining request intents, you can also build your own JSON request object and pass it to ```send()```. Be careful with this though, as an invalid request object will fail. Alternatively, you can pass the object as an argument to ```requestBuilder.intent(object)``` to access the requestbuilder functions on your own object. Keep in mind, that you cannot pass an AlexaRequest into the GoogleActionRequestBuilder and vice versa. Passing your own object as the parameter works for every request option that the RequestBuilder offers.
+Apart from using the RequestBuilder for defining request intents, you can also build your own JSON request object and pass it to ```send()```. Be careful with this though, as an invalid request object will fail. Alternatively, you can pass the object as an argument to ```rb.intent(object)``` to access the requestbuilder functions on your own object. Keep in mind, that you cannot pass an AlexaRequest into the GoogleActionRequestBuilder and vice versa. Passing your own object as the parameter works for every request option that the RequestBuilder offers.
 ```javascript
 let requestObj = {
     'version': '1.0',
@@ -89,7 +89,7 @@ send(rb.intent().setSessionAttributes(sessionAttributes)
 ```
 
 #### setSessionNew
-To simulate a new session, you can call ```rb.intent().setSessionNew(true)```. Per default, ```requestBuilder.intent()``` won't represent a new session.
+To simulate a new session, you can call ```rb.intent().setSessionNew(true)```. Per default, ```rb.intent()``` won't represent a new session.
 
 #### setType
 To alter the type of a request, use ```rb.intent().setType('type')```. This only works for Alexa.
@@ -205,10 +205,17 @@ $ jovo run --record {name}
 	or
 $ jovo run -r {name}
 ```
-To access these files, you can use the ```require()``` function:
+These will be stored in ```./test/recordings/{name}/{platform}/```. To access these files, you can use the ```require()``` function:
 ```javascript
-send(require('./recordings/Hello/AlexaSkill/01_req_LAUNCH'))
+send(require('./recordings/HelloWorld/AlexaSkill/01_req_LAUNCH'))
 	.then((res) => {
     	...
+    });
+```
+You also have the possibility to pass them as a parameter to the respective RequestBuilder funciton to access specific methods, to alter your object:
+```javascript
+send(rb.intent(require('./recordings/HelloWorld/GoogleAction/03_req_HelpIntent')).setSessionAttribute('key', 'value'))
+    .then((res) => {
+        ...
     });
 ```

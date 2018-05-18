@@ -200,7 +200,11 @@ expect(res.getShouldEndSession()).to.equal(true);
 
 ## Record
 We offer you the possibility to record your requests and responses while testing your app in the console or per voice. For that, add the following parameter to your cli command:
-jovo run --record {name of the recording} or -r to use the session id as the name.
+```sh
+$ jovo run --record {name}
+	or
+$ jovo run -r {name}
+```
 To access these files, you can use the ```require()``` function:
 ```javascript
 send(require('./recordings/Hello/AlexaSkill/01_req_LAUNCH'))

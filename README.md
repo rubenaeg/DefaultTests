@@ -109,7 +109,7 @@ To simulate a display event, that occurres when for example a user touches the d
 
 
 ## UserData
-Per default, user data is stored in a file ```./db/db.json```. All methods available from our TestSuite to add/update/read/delete user data access this file through the configuration set in ```./app/app.js```. If you want to test your application with a different file, you can specify this in ```./app/app.js``:
+Per default, user data is stored in a file ```./db/db.json```. All methods available from our TestSuite to add/update/read/delete user data access this file through the configuration set in ```./app/app.js```. If you want to test your application with a different file, you can specify this in ```./app/app.js```:
 ```javascript
 const config = {
     db: {

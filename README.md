@@ -109,6 +109,16 @@ To simulate a display event, that occurres when for example a user touches the d
 
 
 ## UserData
+Per default, user data is stored in a file ```./db/db.json```. All methods available from our TestSuite to add/update/read/delete user data access this file through the configuration set in ```./app/app.js```. If you want to test your application with a different file, you can specify this in ```./app/app.js``:
+```javascript
+const config = {
+    db: {
+        type: 'file',
+        localDbFilename: 'test_db'
+    }
+};
+```
+
 For accessing data across sessions, you can add user data to your user.
 ```javascript
 addUserData(rb.intent().getUserId(), 'key', 'value');
@@ -152,10 +162,6 @@ If you want to check if some data is stored for a specific user, use ```getUserD
 
 It is recommended to delete the user or remove specific user data after your test. This way you can assure, that the next test runs independently.
 If you want to remove specific user data, call ```removeUserData('userId', 'key')``` or just ```removeUserData('userId')``` to remove all data for the specified user. If you want to remove a whole user, you can use ```removeUser('userId')```, or ```removeUser()``` to delete all users.
-
-```javascript
-
-```
 
 ## Response
 If you want to access the final response object from your workflow, ```send()``` returns a variable ```res```, presenting a ResponseObject with respective functions. You can call these and expect a certain value from them, using expect from the Chai Assertion Library per default. Of course, you are free to use any other assertion methods. 

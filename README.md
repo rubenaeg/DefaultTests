@@ -4,7 +4,7 @@
 
 The TestSuite is heavily based on mocha tests and the expect() method from the Chai Assertion Library.
 ```javascript
-for (let rb of getPlatformRequestBuilder('AlexaSkill', 'GoogleActionDialogFlow')) {
+for (let rb of getPlatformRequestBuilder('AlexaSkill', 'GoogleActionDialogFlow', 'GoogleActionDialogFlowV2')) {
     describe(rb.type(), function() {
         describe('LAUNCH_INTENT', function () {
             it('should successfully go into LaunchIntent for ' + rb.type(), function (done) {
